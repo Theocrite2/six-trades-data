@@ -1,0 +1,40 @@
+{"seq": 1000, "event_type": "TRADE", "symbol": "AAPL", "exchange": "XNAS", "ts": "2026-09-26T13:30:00.190Z", "price": 231.36, "size": 200}
+{"seq": 1001, "event_type": "QUOTE", "symbol": "MSFT", "exchange": "XNAS", "ts": "2026-09-26T13:30:00.292Z", "bid": 427.97, "ask": 428.01, "bid_size": 500, "ask_size": 100}
+{"seq": 1002, "event_type": "QUOTE", "symbol": "AMZN", "exchange": "XNAS", "ts": "2026-09-26T13:30:00.357Z", "bid": 195.28, "ask": 195.28, "bid_size": 100, "ask_size": 500}
+{"seq": 1003, "event_type": "TRADE", "symbol": "AMZN", "exchange": "XNAS", "ts": "2026-09-26T13:30:00.508Z", "price": 195.14, "size": 1000}
+{"seq": 1004, "event_type": "QUOTE", "symbol": "TSLA", "exchange": "XNAS", "ts": "2026-09-26T13:30:00.859Z", "bid": 262.66, "ask": 262.68, "bid_size": 100, "ask_size": 100}
+{"seq": 1005, "event_type": "QUOTE", "symbol": "TSLA", "exchange": "XNAS", "ts": "2026-09-26T13:30:00.988Z", "bid": 262.61, "ask": 262.63, "bid_size": 200, "ask_size": 100}
+{"seq": 1006, "event_type": "TRADE", "symbol": "AAPL", "exchange": "XNAS", "ts": "2026-09-26T13:30:01.221Z", "price": 231.32, "size": 300}
+{"seq": 1007, "event_type": "QUOTE", "symbol": "AMZN", "exchange": "XNAS", "ts": "2026-09-26T13:30:01.293Z", "bid": 195.05, "ask": 195.09, "bid_size": 500, "ask_size": 100}
+{"seq": 1008, "event_type": "QUOTE", "symbol": "TSLA", "exchange": "XNAS", "ts": "2026-09-26T13:30:01.493Z", "bid": 262.47, "ask": 262.51, "bid_size": 500, "ask_size": 200}
+{"seq": 1009, "event_type": "TRADE", "symbol": "AMZN", "exchange": "XNAS", "ts": "2026-09-26T13:30:01.578Z", "price": 194.98, "size": 100}
+{"seq": 1010, "event_type": "QUOTE", "symbol": "MSFT", "exchange": "XNAS", "ts": "2026-09-26T13:30:01.668Z", "bid": 428.05, "ask": 428.09, "bid_size": 100, "ask_size": 200}
+{"seq": 1011, "event_type": "QUOTE", "symbol": "NVDA", "exchange": "XNAS", "ts": "2026-09-26T13:30:01.904Z", "bid": 178.38, "ask": 178.4, "bid_size": 200, "ask_size": 100}
+{"seq": 1012, "event_type": "TRADE", "symbol": "NVDA", "exchange": "XNAS", "ts": "2026-09-26T13:30:02.303Z", "price": 178.45, "size": 100}
+{"seq": 1013, "event_type": "QUOTE", "symbol": "AMZN", "exchange": "XNAS", "ts": "2026-09-26T13:30:02.626Z", "bid": 195.0, "ask": 195.04, "bid_size": 100, "ask_size": 200}
+{"seq": 1014, "event_type": "QUOTE", "symbol": "TSLA", "exchange": "XNAS", "ts": "2026-09-26T13:30:03.003Z", "bid": 262.4, "ask": 262.44, "bid_size": 100, "ask_size": 500}
+{"seq": 1015, "event_type": "TRADE", "symbol": "NVDA", "exchange": "XNAS", "ts": "2026-09-26T13:30:03.081Z", "price": 178.55, "size": 200}
+{"seq": 1016, "event_type": "QUOTE", "symbol": "AAPL", "exchange": "XNAS", "ts": "2026-09-26T13:30:03.336Z", "bid": 231.4, "ask": 231.42, "bid_size": 100, "ask_size": 500}
+{"seq": 1017, "event_type": "QUOTE", "symbol": "NVDA", "exchange": "XNAS", "ts": "2026-09-26T13:30:03.641Z", "bid": 178.45, "ask": 178.47, "bid_size": 500, "ask_size": 200}
+{"seq": 1018, "event_type": "TRADE", "symbol": "MSFT", "exchange": "XNAS", "ts": "2026-09-26T13:30:03.817Z", "price": 428.0, "size": 1000}
+{"seq": 1019, "event_type": "QUOTE", "symbol": "AMZN", "exchange": "XNAS", "ts": "2026-09-26T13:30:04.166Z", "bid": 194.94, "ask": 194.96, "bid_size": 500, "ask_size": 200}
+{"seq": 1020, "event_type": "QUOTE", "symbol": "NVDA", "exchange": "XNAS", "ts": "2026-09-26T13:30:04.286Z", "bid": 178.37, "ask": 178.39, "bid_size": 100, "ask_size": 100}
+{"seq": 1021, "event_type": "TRADE", "symbol": "AAPL", "exchange": "XNAS", "ts": "2026-09-26T13:30:04.417Z", "price": 231.31, "size": 500}
+{"seq": 1022, "event_type": "QUOTE", "symbol": "AMZN", "exchange": "XNAS", "ts": "2026-09-26T13:30:04.662Z", "bid": 194.81, "ask": 194.83, "bid_size": 200, "ask_size": 500}
+{"seq": 1023, "event_type": "QUOTE", "symbol": "NVDA", "exchange": "XNAS", "ts": "2026-09-26T13:30:04.717Z", "bid": 178.5, "ask": 178.54, "bid_size": 100, "ask_size": 500}
+{"seq": 1024, "event_type": "TRADE", "symbol": "AMZN", "exchange": "XNAS", "ts": "2026-09-26T13:30:05.095Z", "price": 194.9, "size": 300}
+{"seq": 1025, "event_type": "QUOTE", "symbol": "AAPL", "exchange": "XNAS", "ts": "2026-09-26T13:30:05.225Z", "bid": 231.24, "ask": 231.26, "bid_size": 500, "ask_size": 500}
+{"seq": 1026, "event_type": "QUOTE", "symbol": "NVDA", "exchange": "XNAS", "ts": "2026-09-26T13:30:05.366Z", "bid": 178.65, "ask": 178.67, "bid_size": 100, "ask_size": 500}
+{"seq": 1027, "event_type": "TRADE", "symbol": "NVDA", "exchange": "XNAS", "ts": "2026-09-26T13:30:05.675Z", "price": 178.76, "size": 1000}
+{"seq": 1028, "event_type": "QUOTE", "symbol": "MSFT", "exchange": "XNAS", "ts": "2026-09-26T13:30:05.807Z", "bid": 427.88, "ask": 427.91, "bid_size": 500, "ask_size": 100}
+{"seq": 1029, "event_type": "QUOTE", "symbol": "AMZN", "exchange": "XNAS", "ts": "2026-09-26T13:30:05.866Z", "bid": 194.84, "ask": 194.85, "bid_size": 200, "ask_size": 200}
+{"seq": 1030, "event_type": "TRADE", "symbol": "MSFT", "exchange": "XNAS", "ts": "2026-09-26T13:30:06.206Z", "price": 427.77, "size": 100}
+{"seq": 1031, "event_type": "QUOTE", "symbol": "AAPL", "exchange": "XNAS", "ts": "2026-09-26T13:30:06.291Z", "bid": 231.29, "ask": 231.34, "bid_size": 500, "ask_size": 100}
+{"seq": 1032, "event_type": "QUOTE", "symbol": "MSFT", "exchange": "XNAS", "ts": "2026-09-26T13:30:06.622Z", "bid": 427.81, "ask": 427.83, "bid_size": 500, "ask_size": 500}
+{"seq": 1033, "event_type": "TRADE", "symbol": "TSLA", "exchange": "XNAS", "ts": "2026-09-26T13:30:06.948Z", "price": 262.56, "size": 200}
+{"seq": 1034, "event_type": "QUOTE", "symbol": "NVDA", "exchange": "XNAS", "ts": "2026-09-26T13:30:07.341Z", "bid": 178.71, "ask": 178.75, "bid_size": 200, "ask_size": 500}
+{"seq": 1035, "event_type": "QUOTE", "symbol": "TSLA", "exchange": "XNAS", "ts": "2026-09-26T13:30:07.506Z", "bid": 262.44, "ask": 262.45, "bid_size": 100, "ask_size": 500}
+{"seq": 1036, "event_type": "TRADE", "symbol": "AMZN", "exchange": "XNAS", "ts": "2026-09-26T13:30:07.668Z", "price": 194.77, "size": 100}
+{"seq": 1037, "event_type": "QUOTE", "symbol": "AAPL", "exchange": "XNAS", "ts": "2026-09-26T13:30:07.748Z", "bid": 231.37, "ask": 231.39, "bid_size": 100, "ask_size": 200}
+{"seq": 1038, "event_type": "QUOTE", "symbol": "AAPL", "exchange": "XNAS", "ts": "2026-09-26T13:30:07.940Z", "bid": 231.36, "ask": 231.4, "bid_size": 100, "ask_size": 500}
+{"seq": 1039, "event_type": "TRADE", "symbol": "MSFT", "exchange": "XNAS", "ts": "2026-09-26T13:30:08.282Z", "price": 427.89, "size": 1000}
