@@ -4,7 +4,7 @@ Three sources report the same corporate actions and disagree with each other. Th
 
 **Walkthrough video (5 min):** LOOM_LINK
 
-Built on Databricks Free Edition: Lakeflow declarative pipeline, Auto Loader, Unity Catalog, Lakeflow Jobs, AI Functions (`ai_parse_document`, `ai_extract`), Python and SQL.
+Built on Databricks: Lakeflow declarative pipeline, Auto Loader, Unity Catalog, Lakeflow Jobs, AI Functions (`ai_parse_document`, `ai_extract`), Python and SQL.
 
 ## How it works
 
