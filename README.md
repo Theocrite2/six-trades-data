@@ -1,3 +1,4 @@
+[README (2).md](https://github.com/user-attachments/files/32810693/README.2.md)
 # Corporate actions golden record on Databricks
 
 Three sources report the same corporate actions and disagree with each other. This project builds the pipeline that decides what gets published: it cleans the three feeds, rejects anything that breaks a rule (with the reason attached), picks one golden record per event, measures how much went through without manual work, and adds each issuer's LEI from GLEIF's public API. A second flow uses AI to read PDF term sheets, then five checks decide whether each one is accepted automatically or goes to a person for review.
@@ -116,16 +117,32 @@ AI can misread a value, so nothing it extracts is accepted until these five chec
 - **AI output is never trusted on its own.** Extraction is followed by rules, and anything that fails goes to review.
 - **Currency kept as reported.** UBS stays in USD; FX conversion is out of scope.
 
+## How to run
+
+Databricks Free Edition (serverless), catalog `workspace`, schema `six_data`.
+
+1. Run `00_setup.sql` once.
+2. Run `01_import_files.py` to copy the source files into the volume.
+3. Create a Lakeflow declarative pipeline with `02_ca_pipeline.sql` as its source.
+4. Create a job: import, then the pipeline, then `03_dq_kpi.sql` and `04_lei_enrichment.py`; `05_gold_ca_event_lei.sql` depends on both the pipeline and the LEI task.
+5. Term sheets: run `06_term_sheet_extraction.sql`, then `07_term_sheet_review.py` (needs `pymupdf` in the notebook environment).
+
 ## Limits
 
 Synthetic defects on real events, three sources, and two synthetic term sheets rather than a labelled accuracy set. A standalone build, not connected to any production system.
 
 ## Repository
 
-```
-depositary/  issuer/  exchange/   source files for the pipeline
-instruments/                      two daily instrument snapshots (not used by the pipeline)
-term_sheets/                      two synthetic PDF term sheets
-```
-
-The code runs in a Databricks workspace and is shown in the walkthrough video.
+| File or folder | What it holds |
+|---|---|
+| [`00_setup.sql`](00_setup.sql) | Schema, volumes, event-code mapping, source priority, ISIN check |
+| [`01_import_files.py`](01_import_files.py) | Copies the source files from this repo into the volume |
+| [`02_ca_pipeline.sql`](02_ca_pipeline.sql) | The pipeline: bronze, silver, rules, quarantine, golden record, reconciliation |
+| [`03_dq_kpi.sql`](03_dq_kpi.sql) | Straight-through rate and failures by rule |
+| [`04_lei_enrichment.py`](04_lei_enrichment.py) | LEI lookup from GLEIF's public API by ISIN |
+| [`05_gold_ca_event_lei.sql`](05_gold_ca_event_lei.sql) | Golden record joined with its LEI |
+| [`06_term_sheet_extraction.sql`](06_term_sheet_extraction.sql) | AI extraction from the PDFs, the five checks, routing |
+| [`07_term_sheet_review.py`](07_term_sheet_review.py) | Review page: PDF, extracted values, checks, verdict |
+| `depositary/`, `issuer/`, `exchange/` | Source files for the pipeline |
+| `instruments/` | Two daily instrument snapshots (not used by the pipeline) |
+| `term_sheets/` | Two synthetic PDF term sheets |
