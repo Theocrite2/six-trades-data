@@ -1,4 +1,3 @@
-[README (2).md](https://github.com/user-attachments/files/32810693/README.2.md)
 # Corporate actions golden record on Databricks
 
 Three sources report the same corporate actions and disagree with each other. This project builds the pipeline that decides what gets published: it cleans the three feeds, rejects anything that breaks a rule (with the reason attached), picks one golden record per event, measures how much went through without manual work, and adds each issuer's LEI from GLEIF's public API. A second flow uses AI to read PDF term sheets, then five checks decide whether each one is accepted automatically or goes to a person for review.
