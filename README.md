@@ -50,6 +50,18 @@ flowchart LR
 
 The SQL for all three is in [`08_monitoring.sql`](08_monitoring.sql).
 
+## Databricks features that make it work
+
+| Feature | What it does here | Why it matters for automating a process |
+|---|---|---|
+| Lakeflow declarative pipeline | The flow from raw files to golden record, written as SQL tables; Databricks works out the order and runs it | The transformation reads like the business process, with no plumbing code |
+| Auto Loader | Picks up only new files, each exactly once | Daily feeds run unattended, with no duplicates |
+| Lakeflow Jobs | Runs every step in order on a schedule, with dependencies and repair runs | The manual process becomes a job that runs itself |
+| AI Functions (`ai_parse_document`, `ai_extract`) | Read PDF term sheets straight from SQL | The most manual input, documents, enters the same pipeline as the files |
+| Unity Catalog | Files, tables, functions and lineage in one governed place | Where every table comes from, and what uses it, is visible |
+| Delta Lake | Every table is versioned: history, time travel, restore | Audit trail and recovery come built in |
+| Databricks SQL dashboards and alerts | The manager's page and the team's alert | Monitoring without a separate tool |
+
 ## Results on the test data
 
 | Step | Result |
