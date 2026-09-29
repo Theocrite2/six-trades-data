@@ -1,5 +1,7 @@
 # Corporate actions golden record on Databricks
 
+**The manual work this replaces.** An analyst receives the same corporate action from several sources, compares them field by field, decides which values are right and types the result into the reference data system. Structured product terms are typed in the same way, by reading PDF term sheets. Here the pipeline does that work, and a person only sees the exceptions: 3 of 13 records and 1 of 2 term sheets on the test data.
+
 Three sources report the same corporate actions and disagree with each other. This project builds the pipeline that decides what gets published: it cleans the three feeds, rejects anything that breaks a rule (with the reason attached), picks one golden record per event, measures how much went through without manual work, and adds each issuer's LEI from GLEIF's public API. A second flow uses AI to read PDF term sheets, then five checks decide whether each one is accepted automatically or goes to a person for review.
 
 **Walkthrough video (5 min):** LOOM_LINK
@@ -15,10 +17,11 @@ flowchart LR
         BR["Bronze<br/>one table per source"] --> SI["Silver<br/>one standard format"]
         SI --> CH["Rules<br/>reason codes"]
         CH --> QU["Quarantine<br/>3 records"]
-        CH --> GO["Golden record<br/>5 events"]
+        CH --> GO["Gold: golden record<br/>5 events"]
     end
     VOL --> BR
     CH --> KPI["03 KPI<br/>76.92% straight through"]
+    KPI --> MON["08 Dashboard<br/>and alert"]
     GO --> LEI["04 GLEIF API<br/>LEI by ISIN"]
     GO --> JN["05 Golden record<br/>with LEI"]
     LEI --> JN
@@ -26,11 +29,26 @@ flowchart LR
 ```
 
 1. **Import.** The source files are copied from this repo into a Unity Catalog volume.
-2. **Pipeline.** Each source lands raw in its own bronze table, is converted to one standard format in silver, then checked against the rules. Failures go to a quarantine table with their reason codes; nothing is dropped silently. The golden record takes each event from the most trusted source (depositary, then issuer, then exchange).
+2. **Pipeline, in three layers.** Bronze: each source lands as received, in its own table, so any run can be replayed from the original files. Silver: the three formats become one standard format and every record is checked against the rules; failures go to a quarantine table with their reason codes, nothing is dropped silently. Gold: the golden record, one row per event, taken from the most trusted source (depositary, then issuer, then exchange).
 3. **KPI.** The share of records that pass every rule, plus failures by rule.
 4. **LEI.** Each golden record's ISIN is looked up in GLEIF's public API, which returns the issuer's LEI and legal name.
 5. **Golden record with LEI.** A join of the two, run as its own job task after both.
 6. **Term sheets.** AI reads two PDF term sheets and extracts ten key terms: issuer, ISIN, product type, currency, coupon, strike, barrier, and the initial fixing, final fixing and redemption dates. Five checks then test what the AI extracted (see [Term sheet checks](#term-sheet-checks)). A term sheet that passes all five is accepted automatically; one that fails any check goes to review, with the reason. A review page shows each PDF with the rows the AI read highlighted, the extracted values, the checks and the verdict.
+7. **Monitoring.** A dashboard, an alert and saved queries (see [Monitoring](#monitoring)).
+
+## How it runs
+
+- **One job, in order.** The steps above run as one Lakeflow Job. Each task starts only when the tasks before it have succeeded.
+- **On a schedule.** The job runs every weekday at 18:00, and its first task pulls the day's files. It can also be started by hand.
+- **Only new data.** Auto Loader remembers which files it has already read, so each run reads only new files and a rerun never duplicates anything.
+
+## Monitoring
+
+- **Dashboard, for the manager.** One page that answers "did today's run work, and what needs a person?": straight-through rate, records in quarantine and golden records at the top; why records failed and where the sources disagree in the middle; the golden records with their LEI at the bottom.
+- **Alert, for the team.** After each run, an email goes out if the straight-through rate is below 80%. On the test data it fires (76.92%).
+- **Saved queries, for the analysts.** The quarantine queue with the reason for each record, and the events only one source reported.
+
+The SQL for all three is in [`08_monitoring.sql`](08_monitoring.sql).
 
 ## Results on the test data
 
@@ -99,6 +117,11 @@ AI can misread a value, so nothing it extracts is accepted until these five chec
 | `BARRIER_NOT_BELOW_STRIKE` | The barrier sits below the strike | On these products the barrier is a safety net below the starting price, so a barrier above it is impossible (TS2: 160%) |
 | `DATES_MISSING_OR_ORDER` | Initial fixing before final fixing, final fixing no later than redemption | Missing, swapped or misread dates |
 
+## Reconciliation and audit trail
+
+- **Reconciliation.** For every event, `ca_reconciliation` lists what each source reported and flags any disagreement, like Siemens at 5.35 against 5.30. A source that stayed silent shows up too: Allianz has no depositary entry.
+- **Audit trail.** Every published value can be traced back. Bronze keeps each file as received, with its file name and load time on every row. Each golden record keeps its winning source and that source's own reference. Quarantined records keep their reasons. The KPI table keeps one row per run. Delta keeps every version of every table, so any earlier state can be viewed or restored.
+
 ## Data
 
 - **Three sources, three formats.** Depositary: SWIFT MT564 messages. Issuer: CSV with semicolons, decimal commas and dd/MM/yyyy dates. Exchange: CSV with yyyyMMdd dates and numeric event codes.
@@ -123,8 +146,9 @@ Databricks Free Edition (serverless), catalog `workspace`, schema `six_data`.
 1. Run `00_setup.sql` once.
 2. Run `01_import_files.py` to copy the source files into the volume.
 3. Create a Lakeflow declarative pipeline with `02_ca_pipeline.sql` as its source.
-4. Create a job: import, then the pipeline, then `03_dq_kpi.sql` and `04_lei_enrichment.py`; `05_gold_ca_event_lei.sql` depends on both the pipeline and the LEI task.
+4. Create a job: import, then the pipeline, then `03_dq_kpi.sql` and `04_lei_enrichment.py`; `05_gold_ca_event_lei.sql` depends on both the pipeline and the LEI task. Schedule it for weekdays at 18:00.
 5. Term sheets: run `06_term_sheet_extraction.sql`, then `07_term_sheet_review.py` (needs `pymupdf` in the notebook environment).
+6. Monitoring: build the dashboard, the alert and the saved queries from `08_monitoring.sql`.
 
 ## Limits
 
@@ -142,6 +166,7 @@ Synthetic defects on real events, three sources, and two synthetic term sheets r
 | [`05_gold_ca_event_lei.sql`](05_gold_ca_event_lei.sql) | Golden record joined with its LEI |
 | [`06_term_sheet_extraction.sql`](06_term_sheet_extraction.sql) | AI extraction from the PDFs, the five checks, routing |
 | [`07_term_sheet_review.py`](07_term_sheet_review.py) | Review page: PDF, extracted values, checks, verdict |
+| [`08_monitoring.sql`](08_monitoring.sql) | Dashboard datasets, the alert query, the analysts' saved queries |
 | `depositary/`, `issuer/`, `exchange/` | Source files for the pipeline |
 | `instruments/` | Two daily instrument snapshots (not used by the pipeline) |
 | `term_sheets/` | Two synthetic PDF term sheets |
