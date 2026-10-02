@@ -132,7 +132,7 @@ The SQL for all three is in [`08_monitoring.sql`](08_monitoring.sql).
 
 ### Term sheet checks
 
-AI can misread a value, so nothing it extracts is accepted until these five checks pass. A term sheet that fails any of them goes to review, with the name of the check it failed.
+For safety checks, nothing it extracts is accepted until these five checks pass. A term sheet that fails any of them goes to review, with the name of the check it failed.
 
 | Check | What it tests | What it catches |
 |---|---|---|
